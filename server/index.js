@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import Post from './models/index.js';
+import Post from './models/post.js';
+import postRoutes from './routes/posts.js';
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -16,14 +17,7 @@ app.use(express.urlencoded({
 }));
 app.use(cors());
 
-app.get('/inures/posts', async(req, res) => {
-  try {
-    const getPosts = await Post.find({})
-    res.status(200).json(getPosts);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-})
+app.use('/posts', postRoutes);
 
 mongoose.connect(`mongodb+srv://pan:${PW}@mvp.ha141ti.mongodb.net/inures?retryWrites=true&w=majority`,
                  {useNewUrlParser: true, useUnifiedTopology: true})
